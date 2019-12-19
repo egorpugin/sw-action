@@ -9,7 +9,7 @@ See [action.yml](action.yml)
 Basic:
 ```yaml
 steps:
-- uses: egorpugin/sw-action@v1
+- uses: egorpugin/sw-action@master
 ```
 
 # License
