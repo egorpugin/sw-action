@@ -1,6 +1,11 @@
-name: 'sw'
+name: 'SW - Build System and Package Manager'
 description: 'Setup and prepare SW tool'
 author: 'Egor Pugin'
+
+branding:
+  icon: 'box'
+  color: 'blue'
+  
 steps:
   - name: SW Cache
     uses: actions/cache@v1
