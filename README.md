@@ -6,10 +6,13 @@
 
 See [action.yml](action.yml)
 
-Basic:
+Basic setup and usage:
 ```yaml
 steps:
 - uses: egorpugin/sw-action@master
+
+- name: build
+  run: ./sw build
 ```
 
 # License
