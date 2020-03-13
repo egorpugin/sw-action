@@ -2604,12 +2604,14 @@ try {
   
   file.on("close", () =>
   {
-    exec.exec("cmake -E tar xvf " + ar)
-    .then(() =>
+    exec.exec("cmake -E tar xvf " + ar).then(() =>
     {
       fs.unlink(ar, err => { if (err) throw err; });
       if (os.platform() != "win32")
         exec.exec("chmod 755 sw");
+    }).then(() =>
+    {
+      exec.exec("sw setup");
     });
   });
 } catch (error) {

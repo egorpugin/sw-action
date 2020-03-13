@@ -26,10 +26,10 @@ try {
     {
       fs.unlink(ar, err => { if (err) throw err; });
       if (os.platform() != "win32")
-        exec.exec("chmod 755 sw").then(() =>
-        {
-          exec.exec("sw setup");
-        });
+        exec.exec("chmod 755 sw");
+    }).then(() =>
+    {
+      exec.exec("sw setup");
     });
   });
 } catch (error) {
