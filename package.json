@@ -1,0 +1,26 @@
+{
+  "name": "sw-action",
+  "version": "1.0.0",
+  "description": "[GitHub Action](https://github.com/features/actions) to build projects with SW tool (https://software-network.org/)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "ncc build index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/egorpugin/sw-action.git"
+  },
+  "keywords": [],
+  "author": "Egor Pugin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/egorpugin/sw-action/issues"
+  },
+  "homepage": "https://github.com/egorpugin/sw-action#readme",
+  "dependencies": {
+    "@actions/exec": "^1.0.3",
+    "@zeit/ncc": "^0.21.1",
+    "follow-redirects": "^1.10.0"
+  }
+}
