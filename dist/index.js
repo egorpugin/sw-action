@@ -2611,7 +2611,7 @@ try {
         exec.exec("chmod 755 sw");
     }).then(() =>
     {
-      exec.exec("sw setup");
+      exec.exec("./sw setup");
     });
   });
 } catch (error) {
