@@ -1,6 +1,6 @@
 # sw-action
 
-[GitHub Action](https://github.com/features/actions) to build projects with SW tool
+[GitHub Action](https://github.com/features/actions) to build projects with SW tool (https://software-network.org/)
 
 # Usage
 
