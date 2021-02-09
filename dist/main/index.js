@@ -57026,12 +57026,12 @@ function run() {
             if (utils.isGhes()) {
                 utils.logWarning("Cache action is not supported on GHES");
                 utils.setCacheHitOutput(false);
-                process.exit(1);
+                return;
             }
             // Validate inputs, this can cause task failure
             if (!utils.isValidEvent()) {
                 utils.logWarning(`Event Validation Error: The event type ${process.env[constants_1.Events.Key]} is not supported because it's not tied to a branch or tag ref.`);
-                process.exit(1);
+                return;
             }
             const primaryKey = "${{ runner.os }}-sw";
             //const primaryKey = core.getInput(Inputs.Key, { required: true });
@@ -57048,7 +57048,7 @@ function run() {
                         primaryKey,
                         ...restoreKeys
                     ].join(", ")}`);
-                    process.exit(1);
+                    return;
                 }
                 // Store the matched cache key
                 utils.setCacheState(cacheKey);
