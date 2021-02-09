@@ -57035,8 +57035,10 @@ function run() {
                 return;
             }
             var primaryKey = core.getInput(constants_1.Inputs.Key);
-            if (!primaryKey)
+            if (!primaryKey) {
                 primaryKey = "sw-" + os.platform();
+                core.info(`Cache key was not set. Using default: ${primaryKey}`);
+            }
             core.saveState(constants_1.State.CachePrimaryKey, primaryKey);
             const restoreKeys = utils.getInputAsArray(constants_1.Inputs.RestoreKeys);
             const cachePaths = ["~/.sw"];
