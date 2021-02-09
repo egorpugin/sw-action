@@ -57,8 +57,10 @@ async function run(): Promise<void> {
         }
 
         var primaryKey = core.getInput(Inputs.Key);
-        if (!primaryKey)
+        if (!primaryKey) {
             primaryKey = "sw-" + os.platform();
+            core.info(`Cache key was not set. Using default: ${primaryKey}`);
+        }
         core.saveState(State.CachePrimaryKey, primaryKey);
 
         const restoreKeys = utils.getInputAsArray(Inputs.RestoreKeys);
