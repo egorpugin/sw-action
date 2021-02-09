@@ -46700,6 +46700,7 @@ __webpack_require__.r(__webpack_exports__);
 
 const fs = __webpack_require__(747);
 const os = __webpack_require__(87);
+const core = __webpack_require__(470);
 const exec = __webpack_require__(986);
 const cache = __webpack_require__(692);
 const { http, https } = __webpack_require__(549);
@@ -46713,7 +46714,7 @@ else if (os.platform() == "linux")
   url = "https://software-network.org/client/sw-master-linux-client.tar.gz";
 else
   core.setFailed("Unknown os: " + os.platform());
-ar = "sw.zip";
+const ar = "sw.zip";
 
 try {
   const file = fs.createWriteStream("sw.zip");
@@ -46734,10 +46735,12 @@ try {
 
 // cache
 try {
+    core.info(`Trying to load cache`);
+
     if (_cache_utils_actionUtils__WEBPACK_IMPORTED_MODULE_1__.isGhes()) {
         _cache_utils_actionUtils__WEBPACK_IMPORTED_MODULE_1__.logWarning("Cache action is not supported on GHES");
         _cache_utils_actionUtils__WEBPACK_IMPORTED_MODULE_1__.setCacheHitOutput(false);
-        exit(1);
+        process.exit(1);
     }
 
     if (!_cache_utils_actionUtils__WEBPACK_IMPORTED_MODULE_1__.isValidEvent()) {
@@ -46746,7 +46749,7 @@ try {
                 process.env[_cache_constants__WEBPACK_IMPORTED_MODULE_0__.Events.Key]
             } is not supported because it's not tied to a branch or tag ref.`
         );
-        exit(1);
+        process.exit(1);
     }
 
     const state = _cache_utils_actionUtils__WEBPACK_IMPORTED_MODULE_1__.getCacheState();
@@ -46755,14 +46758,14 @@ try {
     const primaryKey = core.getState(_cache_constants__WEBPACK_IMPORTED_MODULE_0__.State.CachePrimaryKey);
     if (!primaryKey) {
         _cache_utils_actionUtils__WEBPACK_IMPORTED_MODULE_1__.logWarning(`Error retrieving key from state.`);
-        exit(1);
+        process.exit(1);
     }
 
     if (_cache_utils_actionUtils__WEBPACK_IMPORTED_MODULE_1__.isExactKeyMatch(primaryKey, state)) {
         core.info(
             `Cache hit occurred on the primary key ${primaryKey}, not saving cache.`
         );
-        exit(1);
+        process.exit(1);
     }
 
     //const path = Inputs.Path;

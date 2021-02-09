@@ -3,6 +3,7 @@ import * as utils from "./cache/utils/actionUtils";
 
 const fs = require("fs");
 const os = require('os');
+const core = require("@actions/core");
 const exec = require("@actions/exec");
 const cache = require("@actions/cache");
 const { http, https } = require('follow-redirects');
@@ -16,7 +17,7 @@ else if (os.platform() == "linux")
   url = "https://software-network.org/client/sw-master-linux-client.tar.gz";
 else
   core.setFailed("Unknown os: " + os.platform());
-ar = "sw.zip";
+const ar = "sw.zip";
 
 try {
   const file = fs.createWriteStream("sw.zip");
@@ -37,10 +38,12 @@ try {
 
 // cache
 try {
+    core.info(`Trying to load cache`);
+
     if (utils.isGhes()) {
         utils.logWarning("Cache action is not supported on GHES");
         utils.setCacheHitOutput(false);
-        exit(1);
+        process.exit(1);
     }
 
     if (!utils.isValidEvent()) {
@@ -49,7 +52,7 @@ try {
                 process.env[Events.Key]
             } is not supported because it's not tied to a branch or tag ref.`
         );
-        exit(1);
+        process.exit(1);
     }
 
     const state = utils.getCacheState();
@@ -58,14 +61,14 @@ try {
     const primaryKey = core.getState(State.CachePrimaryKey);
     if (!primaryKey) {
         utils.logWarning(`Error retrieving key from state.`);
-        exit(1);
+        process.exit(1);
     }
 
     if (utils.isExactKeyMatch(primaryKey, state)) {
         core.info(
             `Cache hit occurred on the primary key ${primaryKey}, not saving cache.`
         );
-        exit(1);
+        process.exit(1);
     }
 
     //const path = Inputs.Path;
