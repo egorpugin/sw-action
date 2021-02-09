@@ -9,3 +9,4 @@ branding:
 runs:
   using: 'node12'
   main: 'dist/main/index.js'
+  post: 'dist/save/index.js'

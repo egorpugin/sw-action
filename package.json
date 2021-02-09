@@ -4,7 +4,7 @@
   "description": "[GitHub Action](https://github.com/features/actions) to build projects with SW tool (https://software-network.org/)",
   "main": "dist/main/index.ts",
   "scripts": {
-    "build": "tsc && ncc build -o dist/main src/index.ts"
+    "build": "tsc && ncc build -o dist/main src/index.ts && ncc build -o dist/save src/save_cache.ts"
   },
   "repository": {
     "type": "git",
