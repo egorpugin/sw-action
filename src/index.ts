@@ -56,9 +56,9 @@ async function run(): Promise<void> {
             return;
         }
 
-        const primaryKey = "sw-" + os.platform();
-        //const primaryKey = common.get_primary_key();
-        //const primaryKey = core.getInput(Inputs.Key, { required: true });
+        var primaryKey = core.getInput(Inputs.Key);
+        if (!primaryKey)
+            primaryKey = "sw-" + os.platform();
         core.saveState(State.CachePrimaryKey, primaryKey);
 
         const restoreKeys = utils.getInputAsArray(Inputs.RestoreKeys);

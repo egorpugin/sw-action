@@ -2,6 +2,14 @@ name: 'SW - Build System and Package Manager'
 description: 'Download and prepare SW tool'
 author: 'Egor Pugin'
 
+inputs:
+  path:
+    description: 'A list of files, directories, and wildcard patterns to cache and restore'
+    required: false
+  key:
+    description: 'An explicit key for restoring and saving the cache'
+    required: false
+
 branding:
   icon: 'box'
   color: 'blue'

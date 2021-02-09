@@ -57034,9 +57034,9 @@ function run() {
                 utils.logWarning(`Event Validation Error: The event type ${process.env[constants_1.Events.Key]} is not supported because it's not tied to a branch or tag ref.`);
                 return;
             }
-            const primaryKey = "sw-" + os.platform();
-            //const primaryKey = common.get_primary_key();
-            //const primaryKey = core.getInput(Inputs.Key, { required: true });
+            var primaryKey = core.getInput(constants_1.Inputs.Key);
+            if (!primaryKey)
+                primaryKey = "sw-" + os.platform();
             core.saveState(constants_1.State.CachePrimaryKey, primaryKey);
             const restoreKeys = utils.getInputAsArray(constants_1.Inputs.RestoreKeys);
             const cachePaths = ["~/.sw"];
