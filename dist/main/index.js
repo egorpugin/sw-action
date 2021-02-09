@@ -46735,14 +46735,13 @@ try {
 
 // cache
 try {
-    core.info(`Trying to load cache`);
-
     if (_cache_utils_actionUtils__WEBPACK_IMPORTED_MODULE_1__.isGhes()) {
         _cache_utils_actionUtils__WEBPACK_IMPORTED_MODULE_1__.logWarning("Cache action is not supported on GHES");
         _cache_utils_actionUtils__WEBPACK_IMPORTED_MODULE_1__.setCacheHitOutput(false);
         process.exit(1);
     }
 
+    // Validate inputs, this can cause task failure
     if (!_cache_utils_actionUtils__WEBPACK_IMPORTED_MODULE_1__.isValidEvent()) {
         _cache_utils_actionUtils__WEBPACK_IMPORTED_MODULE_1__.logWarning(
             `Event Validation Error: The event type ${
@@ -46752,45 +46751,51 @@ try {
         process.exit(1);
     }
 
-    const state = _cache_utils_actionUtils__WEBPACK_IMPORTED_MODULE_1__.getCacheState();
+    const primaryKey = "${{ runner.os }}-sw";
+    //const primaryKey = core.getInput(Inputs.Key, { required: true });
+    core.saveState(_cache_constants__WEBPACK_IMPORTED_MODULE_0__.State.CachePrimaryKey, primaryKey);
 
-    // Inputs are re-evaluted before the post action, so we want the original key used for restore
-    const primaryKey = core.getState(_cache_constants__WEBPACK_IMPORTED_MODULE_0__.State.CachePrimaryKey);
-    if (!primaryKey) {
-        _cache_utils_actionUtils__WEBPACK_IMPORTED_MODULE_1__.logWarning(`Error retrieving key from state.`);
-        process.exit(1);
-    }
-
-    if (_cache_utils_actionUtils__WEBPACK_IMPORTED_MODULE_1__.isExactKeyMatch(primaryKey, state)) {
-        core.info(
-            `Cache hit occurred on the primary key ${primaryKey}, not saving cache.`
-        );
-        process.exit(1);
-    }
-
-    //const path = Inputs.Path;
-    const path = "~/.sw";
-    const cachePaths = _cache_utils_actionUtils__WEBPACK_IMPORTED_MODULE_1__.getInputAsArray(path, {
+    const restoreKeys = _cache_utils_actionUtils__WEBPACK_IMPORTED_MODULE_1__.getInputAsArray(_cache_constants__WEBPACK_IMPORTED_MODULE_0__.Inputs.RestoreKeys);
+    const cachePaths = ["~/.sw"];
+    /*const cachePaths = utils.getInputAsArray(path, {
         required: true
-    });
+    });*/
 
     try {
-        cache.saveCache(cachePaths, primaryKey, {
-            uploadChunkSize: _cache_utils_actionUtils__WEBPACK_IMPORTED_MODULE_1__.getInputAsInt(_cache_constants__WEBPACK_IMPORTED_MODULE_0__.Inputs.UploadChunkSize)
-        });
-        core.info(`Cache saved with key: ${primaryKey}`);
+        const cacheKey = cache.restoreCache(
+            cachePaths,
+            primaryKey,
+            restoreKeys
+        );
+        if (!cacheKey) {
+            core.info(
+                `Cache not found for input keys: ${[
+                    primaryKey,
+                    ...restoreKeys
+                ].join(", ")}`
+            );
+            process.exit(1);
+        }
+
+        // Store the matched cache key
+        _cache_utils_actionUtils__WEBPACK_IMPORTED_MODULE_1__.setCacheState(cacheKey);
+
+        const isExactKeyMatch = _cache_utils_actionUtils__WEBPACK_IMPORTED_MODULE_1__.isExactKeyMatch(primaryKey, cacheKey);
+        _cache_utils_actionUtils__WEBPACK_IMPORTED_MODULE_1__.setCacheHitOutput(isExactKeyMatch);
+
+        core.info(`Cache restored from key: ${cacheKey}`);
     } catch (error) {
         if (error.name === cache.ValidationError.name) {
             throw error;
-        } else if (error.name === cache.ReserveCacheError.name) {
-            core.info(error.message);
         } else {
             _cache_utils_actionUtils__WEBPACK_IMPORTED_MODULE_1__.logWarning(error.message);
+            _cache_utils_actionUtils__WEBPACK_IMPORTED_MODULE_1__.setCacheHitOutput(false);
         }
     }
 } catch (error) {
-    _cache_utils_actionUtils__WEBPACK_IMPORTED_MODULE_1__.logWarning(error.message);
+    core.setFailed(error.message);
 }
+
 
 /***/ }),
 /* 677 */,

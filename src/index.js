@@ -38,14 +38,13 @@ try {
 
 // cache
 try {
-    core.info(`Trying to load cache`);
-
     if (utils.isGhes()) {
         utils.logWarning("Cache action is not supported on GHES");
         utils.setCacheHitOutput(false);
         process.exit(1);
     }
 
+    // Validate inputs, this can cause task failure
     if (!utils.isValidEvent()) {
         utils.logWarning(
             `Event Validation Error: The event type ${
@@ -55,42 +54,47 @@ try {
         process.exit(1);
     }
 
-    const state = utils.getCacheState();
+    const primaryKey = "${{ runner.os }}-sw";
+    //const primaryKey = core.getInput(Inputs.Key, { required: true });
+    core.saveState(State.CachePrimaryKey, primaryKey);
 
-    // Inputs are re-evaluted before the post action, so we want the original key used for restore
-    const primaryKey = core.getState(State.CachePrimaryKey);
-    if (!primaryKey) {
-        utils.logWarning(`Error retrieving key from state.`);
-        process.exit(1);
-    }
-
-    if (utils.isExactKeyMatch(primaryKey, state)) {
-        core.info(
-            `Cache hit occurred on the primary key ${primaryKey}, not saving cache.`
-        );
-        process.exit(1);
-    }
-
-    //const path = Inputs.Path;
-    const path = "~/.sw";
-    const cachePaths = utils.getInputAsArray(path, {
+    const restoreKeys = utils.getInputAsArray(Inputs.RestoreKeys);
+    const cachePaths = ["~/.sw"];
+    /*const cachePaths = utils.getInputAsArray(path, {
         required: true
-    });
+    });*/
 
     try {
-        cache.saveCache(cachePaths, primaryKey, {
-            uploadChunkSize: utils.getInputAsInt(Inputs.UploadChunkSize)
-        });
-        core.info(`Cache saved with key: ${primaryKey}`);
+        const cacheKey = cache.restoreCache(
+            cachePaths,
+            primaryKey,
+            restoreKeys
+        );
+        if (!cacheKey) {
+            core.info(
+                `Cache not found for input keys: ${[
+                    primaryKey,
+                    ...restoreKeys
+                ].join(", ")}`
+            );
+            process.exit(1);
+        }
+
+        // Store the matched cache key
+        utils.setCacheState(cacheKey);
+
+        const isExactKeyMatch = utils.isExactKeyMatch(primaryKey, cacheKey);
+        utils.setCacheHitOutput(isExactKeyMatch);
+
+        core.info(`Cache restored from key: ${cacheKey}`);
     } catch (error) {
         if (error.name === cache.ValidationError.name) {
             throw error;
-        } else if (error.name === cache.ReserveCacheError.name) {
-            core.info(error.message);
         } else {
             utils.logWarning(error.message);
+            utils.setCacheHitOutput(false);
         }
     }
 } catch (error) {
-    utils.logWarning(error.message);
+    core.setFailed(error.message);
 }
