@@ -1,3 +1,6 @@
 node_modules
 *.exe
 *.bat
+lib
+.sw
+*.zip
