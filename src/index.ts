@@ -7,6 +7,7 @@ const core = require("@actions/core");
 const exec = require("@actions/exec");
 const cache = require("@actions/cache");
 const { http, https } = require('follow-redirects');
+//const github = require('@actions/github');
 
 // cache
 async function run(): Promise<void> {
@@ -55,7 +56,8 @@ async function run(): Promise<void> {
             return;
         }
 
-        const primaryKey = "${{ runner.os }}-sw";
+        const primaryKey = "sw-" + os.platform();
+        //const primaryKey = common.get_primary_key();
         //const primaryKey = core.getInput(Inputs.Key, { required: true });
         core.saveState(State.CachePrimaryKey, primaryKey);
 

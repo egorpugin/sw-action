@@ -56992,6 +56992,7 @@ const core = __nccwpck_require__(2186);
 const exec = __nccwpck_require__(1514);
 const cache = __nccwpck_require__(7799);
 const { http, https } = __nccwpck_require__(7326);
+//const github = require('@actions/github');
 // cache
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -57033,7 +57034,8 @@ function run() {
                 utils.logWarning(`Event Validation Error: The event type ${process.env[constants_1.Events.Key]} is not supported because it's not tied to a branch or tag ref.`);
                 return;
             }
-            const primaryKey = "${{ runner.os }}-sw";
+            const primaryKey = "sw-" + os.platform();
+            //const primaryKey = common.get_primary_key();
             //const primaryKey = core.getInput(Inputs.Key, { required: true });
             core.saveState(constants_1.State.CachePrimaryKey, primaryKey);
             const restoreKeys = utils.getInputAsArray(constants_1.Inputs.RestoreKeys);
