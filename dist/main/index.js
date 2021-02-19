@@ -57036,7 +57036,13 @@ function run() {
             }
             var primaryKey = core.getInput(constants_1.Inputs.Key);
             if (!primaryKey) {
-                primaryKey = "sw-" + os.platform();
+                // get day of year
+                var date = new Date();
+                var day = (Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
+                    - Date.UTC(date.getFullYear(), 0, 0)) / 24 / 60 / 60 / 1000;
+                var day7 = day % 7;
+                //
+                primaryKey = "sw-" + os.platform() + "-cache-" + day7;
                 core.info(`Cache key was not set. Using default: ${primaryKey}`);
             }
             core.saveState(constants_1.State.CachePrimaryKey, primaryKey);
