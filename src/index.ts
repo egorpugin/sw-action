@@ -66,7 +66,7 @@ async function run(): Promise<void> {
             var day7 = day / 14; // actually two weeks
             day7 = day7 | 0; // round
             //
-            primaryKey = "sw-" + os.platform() + "-cache-" + day7;
+            primaryKey = "sw-" + os.platform() + "-cache-" + date.getFullYear() + "-" + day7;
             core.info(`Cache key was not set. Using default: ${primaryKey}`);
         }
         core.saveState(State.CachePrimaryKey, primaryKey);
