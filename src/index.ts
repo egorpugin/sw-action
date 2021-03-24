@@ -63,7 +63,7 @@ async function run(): Promise<void> {
             var day =
                 (Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
                 - Date.UTC(date.getFullYear(), 0, 0)) / 24 / 60 / 60 / 1000;
-            var day7 = day % 7;
+            var day7 = day / 14; // actually two weeks
             //
             primaryKey = "sw-" + os.platform() + "-cache-" + day7;
             core.info(`Cache key was not set. Using default: ${primaryKey}`);
