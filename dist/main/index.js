@@ -57061,6 +57061,11 @@ function run() {
                     ].join(", ")}`);
                     return;
                 }
+                // remove pch cache on load
+                // some ubuntu systems update glibc or some other headers like '/usr/include/linux/errno.h'
+                // so we get build errors
+                fs.unlink("~/.sw/storage/tmp", err => { if (err)
+                    throw err; });
                 // Store the matched cache key
                 utils.setCacheState(cacheKey);
                 const isExactKeyMatch = utils.isExactKeyMatch(primaryKey, cacheKey);
