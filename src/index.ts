@@ -99,8 +99,9 @@ async function run(): Promise<void> {
             // remove pch cache on load
             // some ubuntu systems update glibc or some other headers like '/usr/include/linux/errno.h'
             // so we get build errors
-            core.info(`Clearing sw temp cache`);
-            await fs.rmdir("~/.sw/storage/tmp", err => {});
+            const dir = os.homedir() + "/.sw/storage/tmp";
+            core.info(`Clearing sw temp cache: ` + dir);
+            await fs.rmdir(dir, err => {});
 
             const isExactKeyMatch = utils.isExactKeyMatch(primaryKey, cacheKey);
             utils.setCacheHitOutput(isExactKeyMatch);
