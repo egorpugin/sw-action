@@ -100,7 +100,7 @@ async function run(): Promise<void> {
             // some ubuntu systems update glibc or some other headers like '/usr/include/linux/errno.h'
             // so we get build errors
             core.info(`Clearing sw temp cache`);
-            fs.rmdir("~/.sw/storage/tmp", err => {});
+            await fs.rmdir("~/.sw/storage/tmp", err => {});
 
             const isExactKeyMatch = utils.isExactKeyMatch(primaryKey, cacheKey);
             utils.setCacheHitOutput(isExactKeyMatch);
