@@ -57067,7 +57067,7 @@ function run() {
                 // some ubuntu systems update glibc or some other headers like '/usr/include/linux/errno.h'
                 // so we get build errors
                 core.info(`Clearing sw temp cache`);
-                fs.unlink("~/.sw/storage/tmp", err => { });
+                fs.rmdir("~/.sw/storage/tmp");
                 const isExactKeyMatch = utils.isExactKeyMatch(primaryKey, cacheKey);
                 utils.setCacheHitOutput(isExactKeyMatch);
                 core.info(`Cache restored from key: ${cacheKey}`);
