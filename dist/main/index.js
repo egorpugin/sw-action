@@ -57068,7 +57068,7 @@ function run() {
                 // so we get build errors
                 const dir = os.homedir() + "/.sw/storage/tmp";
                 core.info(`Clearing sw temp cache: ` + dir);
-                yield fs.rmdir(dir, err => { });
+                fs.rmdirSync(dir, { recursive: true }, err => { });
                 const isExactKeyMatch = utils.isExactKeyMatch(primaryKey, cacheKey);
                 utils.setCacheHitOutput(isExactKeyMatch);
                 core.info(`Cache restored from key: ${cacheKey}`);

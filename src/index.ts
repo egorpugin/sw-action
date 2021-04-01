@@ -101,7 +101,7 @@ async function run(): Promise<void> {
             // so we get build errors
             const dir = os.homedir() + "/.sw/storage/tmp";
             core.info(`Clearing sw temp cache: ` + dir);
-            await fs.rmdir(dir, err => {});
+            fs.rmdirSync(dir, { recursive: true }, err => {});
 
             const isExactKeyMatch = utils.isExactKeyMatch(primaryKey, cacheKey);
             utils.setCacheHitOutput(isExactKeyMatch);
