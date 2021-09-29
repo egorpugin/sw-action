@@ -57002,7 +57002,7 @@ function run() {
         else if (os.platform() == "darwin")
             url = "https://software-network.org/client/sw-master-macos-client.tar.gz";
         else if (os.platform() == "linux")
-            url = "https://software-network.org/client/sw-master-linux-client.tar.gz";
+            url = "https://software-network.org/client/sw-master-ubuntu20.04-client.tar.gz";
         else
             core.setFailed("Unknown os: " + os.platform());
         const ar = "sw.zip";
