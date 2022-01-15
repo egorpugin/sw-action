@@ -21,7 +21,7 @@
     "@actions/cache": "^1.0.6",
     "@actions/core": "^1.2.6",
     "@actions/exec": "^1.0.4",
-    "follow-redirects": "^1.13.2",
+    "follow-redirects": "^1.14.7",
     "@vercel/ncc": "*",
     "typescript": "latest"
   }
