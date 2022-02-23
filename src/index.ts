@@ -10,8 +10,8 @@ const { http, https } = require('follow-redirects');
 //const github = require('@actions/github');
 
 // cache
+var url;
 async function run(): Promise<void> {
-    var url;
     if (os.platform() == "win32")
       url = "https://software-network.org/client/sw-master-windows-client.zip";
     else if (os.platform() == "darwin")

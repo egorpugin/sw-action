@@ -59274,9 +59274,9 @@ const cache = __nccwpck_require__(7799);
 const { http, https } = __nccwpck_require__(7326);
 //const github = require('@actions/github');
 // cache
+var url;
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
-        var url;
         if (os.platform() == "win32")
             url = "https://software-network.org/client/sw-master-windows-client.zip";
         else if (os.platform() == "darwin")
