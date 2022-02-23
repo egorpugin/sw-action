@@ -11,7 +11,7 @@ const { http, https } = require('follow-redirects');
 
 // cache
 async function run(): Promise<void> {
-    let url;
+    var url;
     if (os.platform() == "win32")
       url = "https://software-network.org/client/sw-master-windows-client.zip";
     else if (os.platform() == "darwin")
@@ -26,7 +26,7 @@ async function run(): Promise<void> {
     else
       core.setFailed("Unknown os: " + os.platform());
     core.info(`sw url: ${url}`);
-    
+
     const ar = "sw.zip";
     try {
       const file = fs.createWriteStream("sw.zip");
