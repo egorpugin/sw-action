@@ -17,11 +17,17 @@ async function run(): Promise<void> {
     else if (os.platform() == "darwin")
       url = "https://software-network.org/client/sw-master-macos-client.tar.gz";
     else if (os.platform() == "linux")
-      url = "https://software-network.org/client/sw-master-ubuntu20.04-client.tar.gz";
+      await fs.access('/etc/fedora-release', (err) => {
+        if (err)
+          url = "https://software-network.org/client/sw-master-ubuntu20.04-client.tar.gz";
+        else
+          url = "https://software-network.org/client/sw-master-linux-client.tar.gz";
+      });
     else
       core.setFailed("Unknown os: " + os.platform());
+    core.info(`sw url: ${url}`);
+    
     const ar = "sw.zip";
-
     try {
       const file = fs.createWriteStream("sw.zip");
       const request = https.get(url, function(response) {
