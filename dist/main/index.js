@@ -59284,12 +59284,13 @@ function run() {
             url = "https://software-network.org/client/sw-master-macos-client.tar.gz";
         }
         else if (os.platform() == "linux") {
-            url = "https://software-network.org/client/sw-master-ubuntu20.04-client.tar.gz";
-            yield fs.access('/etc/fedora-release', (err) => {
-                if (!err) {
-                    url = "https://software-network.org/client/sw-master-linux-client.tar.gz";
-                }
-            });
+            url = "https://software-network.org/client/sw-master-linux-client.tar.gz";
+            try {
+                fs.accessSync('/etc/fedora-release');
+            }
+            catch (e) {
+                url = "https://software-network.org/client/sw-master-ubuntu20.04-client.tar.gz";
+            }
         }
         else {
             core.setFailed("Unknown os: " + os.platform());
