@@ -12,19 +12,20 @@ const { http, https } = require('follow-redirects');
 // cache
 var url;
 async function run(): Promise<void> {
-    if (os.platform() == "win32")
+    if (os.platform() == "win32") {
       url = "https://software-network.org/client/sw-master-windows-client.zip";
-    else if (os.platform() == "darwin")
+    } else if (os.platform() == "darwin") {
       url = "https://software-network.org/client/sw-master-macos-client.tar.gz";
-    else if (os.platform() == "linux")
+    } else if (os.platform() == "linux") {
+      url = "https://software-network.org/client/sw-master-ubuntu20.04-client.tar.gz";
       await fs.access('/etc/fedora-release', (err) => {
-        if (err)
-          url = "https://software-network.org/client/sw-master-ubuntu20.04-client.tar.gz";
-        else
+        if (!err) {
           url = "https://software-network.org/client/sw-master-linux-client.tar.gz";
+        }
       });
-    else
+    } else {
       core.setFailed("Unknown os: " + os.platform());
+    }
     core.info(`sw url: ${url}`);
 
     const ar = "sw.zip";
