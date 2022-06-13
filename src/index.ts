@@ -39,6 +39,7 @@ async function run(): Promise<void> {
         exec.exec("cmake -E tar xvf " + ar).then(() => {
           fs.unlink(ar, err => { if (err) throw err; });
         }).then(() => {
+          exec.exec("./sw --version");
           exec.exec("./sw setup");
         });
       });
