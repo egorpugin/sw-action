@@ -56997,19 +56997,21 @@ const { http, https } = __nccwpck_require__(7326);
 var url;
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
+        //const urlbase = "https://software-network.org/";
+        const urlbase = "http://52.51.158.31/";
         if (os.platform() == "win32") {
-            url = "https://software-network.org/client/sw-master-windows-client.zip";
+            url = urlbase + "/client/sw-master-windows-client.zip";
         }
         else if (os.platform() == "darwin") {
-            url = "https://software-network.org/client/sw-master-macos-client.tar.gz";
+            url = urlbase + "/client/sw-master-macos-client.tar.gz";
         }
         else if (os.platform() == "linux") {
-            url = "https://software-network.org/client/sw-master-linux-client.tar.gz";
+            url = urlbase + "/client/sw-master-linux-client.tar.gz";
             try {
                 fs.accessSync('/etc/fedora-release');
             }
             catch (e) {
-                url = "https://software-network.org/client/sw-master-ubuntu20.04-client.tar.gz";
+                url = urlbase + "/client/sw-master-ubuntu20.04-client.tar.gz";
             }
         }
         else {
