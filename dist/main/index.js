@@ -56993,12 +56993,13 @@ const exec = __nccwpck_require__(1514);
 const cache = __nccwpck_require__(7799);
 const { http, https } = __nccwpck_require__(7326);
 //const github = require('@actions/github');
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 // cache
 var url;
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         //const urlbase = "https://software-network.org/";
-        const urlbase = "http://52.51.158.31/";
+        const urlbase = "https://52.51.158.31/";
         if (os.platform() == "win32") {
             url = urlbase + "/client/sw-master-windows-client.zip";
         }
