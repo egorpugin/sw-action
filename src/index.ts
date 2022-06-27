@@ -14,8 +14,8 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 // cache
 var url;
 async function run(): Promise<void> {
-    //const urlbase = "https://software-network.org/";
-    const urlbase = "https://52.51.158.31/";
+    const urlbase = "https://software-network.org/";
+    //const urlbase = "https://52.51.158.31/";
     if (os.platform() == "win32") {
       url = urlbase + "/client/sw-master-windows-client.zip";
     } else if (os.platform() == "darwin") {

@@ -56998,8 +56998,8 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 var url;
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
-        //const urlbase = "https://software-network.org/";
-        const urlbase = "https://52.51.158.31/";
+        const urlbase = "https://software-network.org/";
+        //const urlbase = "https://52.51.158.31/";
         if (os.platform() == "win32") {
             url = urlbase + "/client/sw-master-windows-client.zip";
         }
