@@ -19,7 +19,7 @@
   "homepage": "https://github.com/egorpugin/sw-action#readme",
   "dependencies": {
     "@actions/cache": "^1.0.6",
-    "@actions/core": "^1.2.6",
+    "@actions/core": "^1.9.1",
     "@actions/exec": "^1.0.4",
     "follow-redirects": "^1.14.8",
     "@vercel/ncc": "*",
