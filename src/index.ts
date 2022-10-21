@@ -47,7 +47,8 @@ async function run(): Promise<void> {
           exec.exec("./sw setup");
         });
       });
-    } catch (error) {
+    } catch (e) {
+      const error = e as Error;
       core.setFailed(error.message);
     }
 
@@ -119,7 +120,8 @@ async function run(): Promise<void> {
             utils.setCacheHitOutput(isExactKeyMatch);
 
             core.info(`Cache restored from key: ${cacheKey}`);
-        } catch (error) {
+        } catch (e) {
+            const error = e as Error;
             if (error.name === cache.ValidationError.name) {
                 throw error;
             } else {
@@ -127,7 +129,8 @@ async function run(): Promise<void> {
                 utils.setCacheHitOutput(false);
             }
         }
-    } catch (error) {
+    } catch (e) {
+        const error = e as Error;
         core.setFailed(error.message);
     }
 }

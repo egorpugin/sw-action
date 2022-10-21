@@ -46,7 +46,8 @@ async function run(): Promise<void> {
                 uploadChunkSize: utils.getInputAsInt(Inputs.UploadChunkSize)
             });
             core.info(`Cache saved with key: ${primaryKey}`);
-        } catch (error) {
+        } catch (e) {
+            const error = e as Error;
             if (error.name === cache.ValidationError.name) {
                 throw error;
             } else if (error.name === cache.ReserveCacheError.name) {
@@ -55,7 +56,8 @@ async function run(): Promise<void> {
                 utils.logWarning(error.message);
             }
         }
-    } catch (error) {
+    } catch (e) {
+        const error = e as Error;
         utils.logWarning(error.message);
     }
 }
