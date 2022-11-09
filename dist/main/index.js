@@ -62570,18 +62570,16 @@ function run() {
         }
         core.info(`sw url: ${url}`);
         const ar = "sw.zip";
+        var unpack;
         try {
             const file = fs.createWriteStream("sw.zip");
             const request = https.get(url, function (response) {
                 response.pipe(file);
             });
             file.on("close", () => {
-                exec.exec("cmake -E tar xvf " + ar).then(() => {
+                unpack = exec.exec("cmake -E tar xvf " + ar).then(() => {
                     fs.unlink(ar, err => { if (err)
                         throw err; });
-                }).then(() => {
-                    exec.exec("./sw --version");
-                    exec.exec("./sw setup");
                 });
             });
         }
@@ -62620,6 +62618,11 @@ function run() {
             });*/
             try {
                 const cacheKey = yield cache.restoreCache(cachePaths, primaryKey, restoreKeys);
+                unpack.then(() => {
+                    exec.exec("./sw --version").then(() => {
+                        exec.exec("./sw setup");
+                    });
+                });
                 if (!cacheKey) {
                     core.info(`Cache not found for input keys: ${[
                         primaryKey,
