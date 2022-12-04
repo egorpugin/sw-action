@@ -62570,20 +62570,17 @@ function run() {
         }
         core.info(`sw url: ${url}`);
         const ar = "sw.zip";
-        var unpack;
         try {
             const file = fs.createWriteStream("sw.zip");
             const request = https.get(url, function (response) {
                 response.pipe(file);
             });
             file.on("close", () => {
-                unpack = exec.exec("cmake -E tar xvf " + ar).then(() => {
+                exec.exec("cmake -E tar xvf " + ar).then(() => {
                     fs.unlink(ar, err => { if (err)
                         throw err; });
                 }).then(() => {
                     exec.exec("./sw --version");
-                }).then(() => {
-                    exec.exec("./sw setup");
                 });
             });
         }
@@ -62634,6 +62631,8 @@ function run() {
                 }
                 // Store the matched cache key
                 utils.setCacheState(cacheKey);
+                // after restore
+                yield exec.exec("./sw setup");
                 // remove pch cache on load
                 // some ubuntu systems update glibc or some other headers like '/usr/include/linux/errno.h'
                 // so we get build errors
