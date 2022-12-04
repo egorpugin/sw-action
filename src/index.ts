@@ -43,6 +43,10 @@ async function run(): Promise<void> {
       file.on("close", () => {
         unpack = exec.exec("cmake -E tar xvf " + ar).then(() => {
           fs.unlink(ar, err => { if (err) throw err; });
+        }).then(() => {
+          exec.exec("./sw --version")
+        }).then(() => {
+          exec.exec("./sw setup");
         });
       });
     } catch (e) {
@@ -96,11 +100,6 @@ async function run(): Promise<void> {
                 primaryKey,
                 restoreKeys
             );
-            unpack.then(() => {
-              exec.exec("./sw --version").then(() => {
-                exec.exec("./sw setup");
-              })
-            });
             if (!cacheKey) {
                 core.info(
                     `Cache not found for input keys: ${[

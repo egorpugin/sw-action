@@ -62580,6 +62580,10 @@ function run() {
                 unpack = exec.exec("cmake -E tar xvf " + ar).then(() => {
                     fs.unlink(ar, err => { if (err)
                         throw err; });
+                }).then(() => {
+                    exec.exec("./sw --version");
+                }).then(() => {
+                    exec.exec("./sw setup");
                 });
             });
         }
@@ -62621,11 +62625,6 @@ function run() {
             });*/
             try {
                 const cacheKey = yield cache.restoreCache(cachePaths, primaryKey, restoreKeys);
-                unpack.then(() => {
-                    exec.exec("./sw --version").then(() => {
-                        exec.exec("./sw setup");
-                    });
-                });
                 if (!cacheKey) {
                     core.info(`Cache not found for input keys: ${[
                         primaryKey,
