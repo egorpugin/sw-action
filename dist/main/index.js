@@ -62608,7 +62608,10 @@ function run() {
                 day7 = day7 | 0; // round
                 //
                 primaryKey = "sw-" + os.platform() + "-cache-" + date.getFullYear() + "-" + day7;
-                core.info(`Cache key was not set. Using default: ${primaryKey}`);
+                core.info(`Using default cache key: ${primaryKey}`);
+            }
+            else {
+                core.info(`Cache key was set: ${primaryKey}`);
             }
             core.saveState(constants_1.State.CachePrimaryKey, primaryKey);
             const restoreKeys = utils.getInputAsArray(constants_1.Inputs.RestoreKeys);
@@ -62637,7 +62640,7 @@ function run() {
                 // so we get build errors
                 const dir = os.homedir() + "/.sw/storage/tmp";
                 core.info(`Clearing sw temp cache: ` + dir);
-                fs.rmdirSync(dir, { recursive: true }, err => { });
+                fs.rmSync(dir, { recursive: true, force: true }, err => { });
                 const isExactKeyMatch = utils.isExactKeyMatch(primaryKey, cacheKey);
                 utils.setCacheHitOutput(isExactKeyMatch);
                 core.info(`Cache restored from key: ${cacheKey}`);
