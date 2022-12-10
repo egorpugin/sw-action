@@ -62631,17 +62631,17 @@ function run() {
                 }
                 // Store the matched cache key
                 utils.setCacheState(cacheKey);
+                const isExactKeyMatch = utils.isExactKeyMatch(primaryKey, cacheKey);
+                utils.setCacheHitOutput(isExactKeyMatch);
+                core.info(`Cache restored from key: ${cacheKey}`);
                 // after restore
                 yield exec.exec("./sw setup");
                 // remove pch cache on load
                 // some ubuntu systems update glibc or some other headers like '/usr/include/linux/errno.h'
                 // so we get build errors
                 const dir = os.homedir() + "/.sw/storage/tmp";
-                core.info(`Clearing sw temp cache: ` + dir);
+                core.info(`Clearing sw temp dir: ` + dir);
                 fs.rmSync(dir, { recursive: true, force: true }, err => { });
-                const isExactKeyMatch = utils.isExactKeyMatch(primaryKey, cacheKey);
-                utils.setCacheHitOutput(isExactKeyMatch);
-                core.info(`Cache restored from key: ${cacheKey}`);
             }
             catch (e) {
                 const error = e;

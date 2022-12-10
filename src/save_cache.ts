@@ -4,6 +4,9 @@ import * as core from "@actions/core";
 import { Events, Inputs, State } from "./cache/constants";
 import * as utils from "./cache/utils/actionUtils";
 
+const fs = require("fs");
+const os = require('os');
+
 async function run(): Promise<void> {
     try {
         if (utils.isGhes()) {
@@ -42,6 +45,12 @@ async function run(): Promise<void> {
         });*/
 
         try {
+            // remove pch cache on save
+            // it takes a lot of space
+            const dir = os.homedir() + "/.sw/storage/tmp";
+            core.info(`Clearing sw temp dir: ` + dir);
+            await fs.rmSync(dir, { recursive: true, force: true });
+
             await cache.saveCache(cachePaths, primaryKey, {
                 uploadChunkSize: utils.getInputAsInt(Inputs.UploadChunkSize)
             });

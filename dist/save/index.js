@@ -61888,6 +61888,8 @@ const cache = __importStar(__nccwpck_require__(7799));
 const core = __importStar(__nccwpck_require__(2186));
 const constants_1 = __nccwpck_require__(3823);
 const utils = __importStar(__nccwpck_require__(8619));
+const fs = __nccwpck_require__(7147);
+const os = __nccwpck_require__(2037);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -61915,6 +61917,11 @@ function run() {
                 required: true
             });*/
             try {
+                // remove pch cache on save
+                // it takes a lot of space
+                const dir = os.homedir() + "/.sw/storage/tmp";
+                core.info(`Clearing sw temp dir: ` + dir);
+                yield fs.rmSync(dir, { recursive: true, force: true });
                 yield cache.saveCache(cachePaths, primaryKey, {
                     uploadChunkSize: utils.getInputAsInt(constants_1.Inputs.UploadChunkSize)
                 });
