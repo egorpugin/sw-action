@@ -62551,13 +62551,13 @@ function run() {
         const urlbase = "https://software-network.org/";
         //const urlbase = "https://52.51.158.31/";
         if (os.platform() == "win32") {
-            url = urlbase + "/client/sw-master-windows-client.zip";
+            url = urlbase + "/client/sw-master-windows_x86_64-client.zip";
         }
         else if (os.platform() == "darwin") {
-            url = urlbase + "/client/sw-master-macos-client.tar.gz";
+            url = urlbase + "/client/sw-master-macos_x86_64-client.tar.gz";
         }
         else if (os.platform() == "linux") {
-            url = urlbase + "/client/sw-master-linux-client.tar.gz";
+            url = urlbase + "/client/sw-master-linux_x86_64-client.tar.gz";
             try {
                 fs.accessSync('/etc/fedora-release');
             }
