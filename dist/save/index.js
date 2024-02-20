@@ -61918,6 +61918,7 @@ function run() {
             /*const cachePaths = utils.getInputAsArray(Inputs.Path, {
                 required: true
             });*/
+            utils.logWarning(os.homedir() + "/.sw");
             try {
                 // remove pch cache on save
                 // it takes a lot of space

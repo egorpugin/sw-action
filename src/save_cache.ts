@@ -44,6 +44,8 @@ async function run(): Promise<void> {
             required: true
         });*/
 
+        utils.logWarning(os.homedir() + "/.sw");
+
         try {
             // remove pch cache on save
             // it takes a lot of space
