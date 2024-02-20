@@ -9,7 +9,7 @@ const cache = require("@actions/cache");
 const { http, https } = require('follow-redirects');
 //const github = require('@actions/github');
 
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+//process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 // cache
 var url;

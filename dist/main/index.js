@@ -62543,7 +62543,7 @@ const exec = __nccwpck_require__(1514);
 const cache = __nccwpck_require__(7799);
 const { http, https } = __nccwpck_require__(7326);
 //const github = require('@actions/github');
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+//process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 // cache
 var url;
 function run() {
