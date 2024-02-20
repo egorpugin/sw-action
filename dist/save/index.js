@@ -61914,7 +61914,7 @@ function run() {
                 );
                 return;*/
             }
-            const cachePaths = ["~/.sw"];
+            const cachePaths = [os.homedir() + "/.sw"];
             /*const cachePaths = utils.getInputAsArray(Inputs.Path, {
                 required: true
             });*/
@@ -61924,10 +61924,15 @@ function run() {
                 const dir = os.homedir() + "/.sw/storage/tmp";
                 core.info(`Clearing sw temp dir: ` + dir);
                 yield fs.rmSync(dir, { recursive: true, force: true });
-                yield cache.saveCache(cachePaths, primaryKey, {
+                const cacheId = yield cache.saveCache(cachePaths, primaryKey, {
                     uploadChunkSize: utils.getInputAsInt(constants_1.Inputs.UploadChunkSize)
                 });
-                core.info(`Cache saved with key: ${primaryKey}`);
+                if (cacheId != -1) {
+                    core.info(`Cache saved with key: ${primaryKey}`);
+                }
+                else {
+                    core.info(`Failed to save cache`);
+                }
             }
             catch (e) {
                 const error = e;

@@ -39,7 +39,7 @@ async function run(): Promise<void> {
             return;*/
         }
 
-        const cachePaths = ["~/.sw"];
+        const cachePaths = [os.homedir() + "/.sw"];
         /*const cachePaths = utils.getInputAsArray(Inputs.Path, {
             required: true
         });*/
@@ -51,10 +51,14 @@ async function run(): Promise<void> {
             core.info(`Clearing sw temp dir: ` + dir);
             await fs.rmSync(dir, { recursive: true, force: true });
 
-            await cache.saveCache(cachePaths, primaryKey, {
+            const cacheId = await cache.saveCache(cachePaths, primaryKey, {
                 uploadChunkSize: utils.getInputAsInt(Inputs.UploadChunkSize)
             });
-            core.info(`Cache saved with key: ${primaryKey}`);
+            if (cacheId != -1) {
+                core.info(`Cache saved with key: ${primaryKey}`);
+            } else {
+                core.info(`Failed to save cache`);
+            }
         } catch (e) {
             const error = e as Error;
             if (error.name === cache.ValidationError.name) {
