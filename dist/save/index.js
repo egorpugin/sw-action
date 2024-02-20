@@ -61914,15 +61914,15 @@ function run() {
                 );
                 return;*/
             }
-            const cachePaths = [os.homedir() + "/.sw"];
+            const swroot = os.userInfo().homedir + "/.sw";
+            const cachePaths = [swroot];
             /*const cachePaths = utils.getInputAsArray(Inputs.Path, {
                 required: true
             });*/
-            utils.logWarning(os.homedir() + "/.sw");
             try {
                 // remove pch cache on save
                 // it takes a lot of space
-                const dir = os.homedir() + "/.sw/storage/tmp";
+                const dir = swroot + "/storage/tmp";
                 core.info(`Clearing sw temp dir: ` + dir);
                 yield fs.rmSync(dir, { recursive: true, force: true });
                 const cacheId = yield cache.saveCache(cachePaths, primaryKey, {

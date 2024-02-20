@@ -86,7 +86,8 @@ async function run(): Promise<void> {
         core.saveState(State.CachePrimaryKey, primaryKey);
 
         const restoreKeys = utils.getInputAsArray(Inputs.RestoreKeys);
-        const cachePaths = ["~/.sw"];
+        const swroot = os.userInfo().homedir + "/.sw";
+        const cachePaths = [swroot];
         /*const cachePaths = utils.getInputAsArray(path, {
             required: true
         });*/
@@ -119,7 +120,7 @@ async function run(): Promise<void> {
             // remove pch cache on load
             // some ubuntu systems update glibc or some other headers like '/usr/include/linux/errno.h'
             // so we get build errors
-            const dir = os.homedir() + "/.sw/storage/tmp";
+            const dir = swroot + "/storage/tmp";
             core.info(`Clearing sw temp dir: ` + dir);
             fs.rmSync(dir, { recursive: true, force: true }, err => {});
         } catch (e) {
