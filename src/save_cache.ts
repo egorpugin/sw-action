@@ -33,10 +33,10 @@ async function run(): Promise<void> {
         }
 
         if (utils.isExactKeyMatch(primaryKey, state)) {
-            core.info(
+            /*core.info(
                 `Cache hit occurred on the primary key ${primaryKey}, not saving cache.`
             );
-            return;
+            return;*/
         }
 
         const cachePaths = ["~/.sw"];

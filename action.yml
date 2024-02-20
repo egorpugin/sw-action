@@ -15,6 +15,6 @@ branding:
   color: 'blue'
 
 runs:
-  using: 'node16'
+  using: 'node20'
   main: 'dist/main/index.js'
   post: 'dist/save/index.js'
