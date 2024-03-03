@@ -62606,6 +62606,7 @@ function run() {
                 var day = (Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
                     - Date.UTC(date.getFullYear(), 0, 0)) / 24 / 60 / 60 / 1000;
                 var day7 = day / 14; // actually two weeks
+                day7 = day / 7; // better set to 1 week
                 day7 = day7 | 0; // round
                 //
                 primaryKey = "sw-" + os.platform() + "-cache-" + date.getFullYear() + "-" + day7;
