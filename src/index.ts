@@ -14,17 +14,13 @@ const { http, https } = require('follow-redirects');
 // cache
 var url;
 async function run(): Promise<void> {
-    var arch;
-    await exec.exec('uname -m', function (error, stdout, stderr) {
-      if (error) throw error;
-      arch = stdout;
-    });
     const urlbase = "https://software-network.org/";
     if (os.platform() == "win32") {
       url = urlbase + "/client/sw-master-windows_x86_64-client.zip";
     } else if (os.platform() == "darwin") {
-      if (arch != "arm64") {
-        arch = "x86_64";
+      var arch = "x86_64";
+      if (process.arch == "arm64") {
+        arch = process.arch;
       }
       url = urlbase + "/client/sw-master-macos_" + arch + "-client.tar.gz";
     } else if (os.platform() == "linux") {
