@@ -62548,13 +62548,21 @@ const { http, https } = __nccwpck_require__(7326);
 var url;
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
+        var arch;
+        yield exec.exec('uname -m', function (error, stdout, stderr) {
+            if (error)
+                throw error;
+            arch = stdout;
+        });
         const urlbase = "https://software-network.org/";
-        //const urlbase = "https://52.51.158.31/";
         if (os.platform() == "win32") {
             url = urlbase + "/client/sw-master-windows_x86_64-client.zip";
         }
         else if (os.platform() == "darwin") {
-            url = urlbase + "/client/sw-master-macos_x86_64-client.tar.gz";
+            if (arch != "arm64") {
+                arch = "x86_64";
+            }
+            url = urlbase + "/client/sw-master-macos_" + arch + "-client.tar.gz";
         }
         else if (os.platform() == "linux") {
             url = urlbase + "/client/sw-master-linux_x86_64-client.tar.gz";
